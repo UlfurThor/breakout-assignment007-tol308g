@@ -1,4 +1,4 @@
 // starts game
 
-
-startGame( document.getElementById("myCanvas"));
+var g_canvas = document.getElementById("myCanvas");
+startGame( g_canvas);

@@ -1,12 +1,13 @@
     // BALL STUFF
-console.log("ball");
+    console.log("ball");
+
     function Ball(descr) {
         for (var property in descr) {
             this[property] = descr[property];
         }
     }
 
-    Ball.prototype.update = function () {
+    Ball.prototype.update = function (paddles) {
         // Remember my previous position
         var prevX = this.cx;
         var prevY = this.cy;
@@ -16,9 +17,12 @@ console.log("ball");
         var nextY = prevY + this.yVel;
 
         // Bounce off the paddles
-        if (g_paddle1.collidesWith(prevX, prevY, nextX, nextY, this.radius) ||
-            g_paddle2.collidesWith(prevX, prevY, nextX, nextY, this.radius)) {
-            this.xVel *= -1;
+        
+        for (let i = 0; i < paddles.length; i++) {
+            if (paddles[i].collidesWith(prevX, prevY, nextX, nextY, this.radius)) {
+                this.xVel *= -1;
+            }
+            
         }
 
         // Bounce off top and bottom edges
@@ -40,7 +44,7 @@ console.log("ball");
 
         if (nextX < 0 ||
             nextX > g_canvas.width) {
-            this.score();
+            this.score(paddles);
             //this.reset();
             this.xVel *= -1;
         }
@@ -65,13 +69,13 @@ console.log("ball");
         fillCircle(ctx, this.cx, this.cy, this.radius);
     };
 
-    Ball.prototype.score = function () {
+    Ball.prototype.score = function (paddles) {
 
 
         if (this.cx < 200) {
-            g_paddle2.score++;
+            paddles[0].score++;
         } else {
-            g_paddle1.score++;
+            paddles[1].score++;
         }
 
     }
