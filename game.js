@@ -1,28 +1,4 @@
-// "Crappy PONG" -- step by step
-//
-// Step 9: Homework
-/*
-+++++++++++
-done * Make the ball bounce off the left and right 
-  edges of the playfield, instead of "resetting".
-  ++++++++++++
-done * Add a scoring system! When the ball hits the
-  left edge, the right paddle earns a point, and
-  vice versa. Display each paddle's score, in
-  "bold 40px Arial", at the top of the playfield 
-+++++++++++++++++
-done * Prevent the paddles from moving out of the
-  playfield, by having them "collide" with it.
-  ++++++++++++++++++++++
-done * Let the user also move the paddles horizontally
-  i.e. left and right within 100 pixels of the edges,
-  using the 'A' and 'D' keys for the left paddle,
-  and   the 'J' and 'L' keys for the right paddle
-  +++++++++++++
-done * Add a second ball, with half the velocity 
-  of the first one.
 
-*/
 
 "use strict";
 
@@ -40,26 +16,7 @@ function startGame(g_canvas) {
     // KEYBOARD HANDLING
     // =================
 
-    var g_keys = [];
 
-    function handleKeydown(evt) {
-        g_keys[evt.keyCode] = true;
-    }
-
-    function handleKeyup(evt) {
-        g_keys[evt.keyCode] = false;
-    }
-
-    // Inspects, and then clears, a key's state
-    //
-    // This allows a keypress to be "one-shot" e.g. for toggles
-    // ..until the auto-repeat kicks in, that is.
-    //
-    function eatKey(keyCode) {
-        var isDown = g_keys[keyCode];
-        g_keys[keyCode] = false;
-        return isDown;
-    }
 
     window.addEventListener("keydown", handleKeydown);
     window.addEventListener("keyup", handleKeyup);
