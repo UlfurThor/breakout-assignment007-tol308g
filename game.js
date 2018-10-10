@@ -132,14 +132,6 @@ function startGame(g_canvas) {
     // BALL STUFF
     // ==========
 
-    // BALL STUFF
-
-
-
-
-
-
-
     var g_ball1 = new Ball({
 
         cx: 51,
@@ -172,14 +164,7 @@ function startGame(g_canvas) {
 
 
 
-    // =============
-    // GATHER INPUTS
-    // =============
-
-    function gatherInputs() {
-        // Nothing to do here!
-        // The event handlers do everything we need for now.
-    }
+ 
 
     // =================
     // UPDATE SIMULATION

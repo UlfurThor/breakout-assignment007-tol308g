@@ -19,3 +19,12 @@ function eatKey(keyCode) {
     g_keys[keyCode] = false;
     return isDown;
 }
+
+   // =============
+    // GATHER INPUTS
+    // =============
+
+    function gatherInputs() {
+        // Nothing to do here!
+        // The event handlers do everything we need for now.
+    }
