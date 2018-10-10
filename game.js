@@ -16,8 +16,6 @@ function startGame(g_canvas) {
     // KEYBOARD HANDLING
     // =================
 
-
-
     window.addEventListener("keydown", handleKeydown);
     window.addEventListener("keyup", handleKeyup);
 
@@ -138,13 +136,6 @@ function startGame(g_canvas) {
 
     // BALL STUFF
 
-    function Ball(descr) {
-        for (var property in descr) {
-            this[property] = descr[property];
-        }
-
-        this.g_canvas=g_canvas;
-    }
 
     Ball.prototype.update = function () {
         // Remember my previous position

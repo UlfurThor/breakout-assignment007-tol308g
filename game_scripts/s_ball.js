@@ -1,5 +1,5 @@
     // BALL STUFF
-
+console.log("ball");
     function Ball(descr) {
         for (var property in descr) {
             this[property] = descr[property];
