@@ -1,3 +1,26 @@
+/*
+Good job! Unfortunately there are some errors.
+
+-2 points
+Mouse handling doesn't work correctly. The main ship should be draggable and should move the mouse when the mouse is clicked.
+
+- 1 point
+The ships don't bounce at the correct place. They do not bounce at the end of the screen but a litle under it so because of the wrapping they appear at the opposite side of the canvas before bouncing.
+
+-1 point
+Not enough commentes
+
+-.1 point
+applyAccel() doesn't calculate the average velocity, resulting in the ship getting out of sync
+
+-1 point
+The extra ships are not in sync with the main ship while moving
+
+You lose 6 points and each point is worth 3%
+
+Grade : 8,2
+*/
+
 // Space Ship Sprites
 //
 // A simple version of an inertial, thrusty, 

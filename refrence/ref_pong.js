@@ -1,4 +1,34 @@
-// "Crappy PONG" -- step by step
+/*
+Good job.
+I'm deducting 1 point for lack of comments.
+
+Grade: 9,6
+
+Marking:
+* Ball bounce off the left and right edges
+5/5
+
+* Add a scoring system!
+5/5
+
+* Prevent the paddles from moving out of the playfield
+5/5
+
+wierd to not have them collide with the edges but I can see you clearly did that intentionally so all good
+
+* Let the user also move the paddles horizontally
+5/5
+
+* Add a second ball, with half the velocity of the first one.
+5/5
+
+-1 point
+no comments (except the ones from Pat)
+
+
+Total: 24/25
+*/
+/*/// "Crappy PONG" -- step by step
 //
 // Step 9: Homework
 /*

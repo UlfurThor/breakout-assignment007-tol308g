@@ -1,14 +1,9 @@
-"use strict";
+g_paddles = [];
 
-/* jshint browser: true, devel: true, globalstrict: true */
 function startGame(g_canvas) {
     //g_canvas = document.getElementById("myCanvas");
     var g_ctx = g_canvas.getContext("2d");
 
-    /*
-    0        1         2         3         4         5         6         7         8         9
-    123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890
-    */
 
     // =================
     // KEYBOARD HANDLING
@@ -23,72 +18,7 @@ function startGame(g_canvas) {
 
     // COMMON PADDLE STUFF
 
-    // A generic contructor which accepts an arbitrary descriptor object
-    function Paddle(descr) {
-        for (var property in descr) {
-            this[property] = descr[property];
-        }
-    }
 
-    // Add these properties to the prototype, where they will serve as
-    // shared defaults, in the absence of an instance-specific overrides.
-
-    Paddle.prototype.halfWidth = 10;
-    Paddle.prototype.halfHeight = 50;
-    Paddle.prototype.score = 0;
-
-
-    Paddle.prototype.update = function () {
-        //This is set to leave a 5 px gap between the edge and paddle
-        //     Looks better that way
-        if (g_keys[this.GO_UP]) {
-            this.cy -= 5;
-            if (this.cy - this.halfHeight < 5)
-                this.cy = 5 + this.halfHeight;
-        } else if (g_keys[this.GO_DOWN]) {
-            this.cy += 5;
-            if (this.cy + this.halfHeight > 395)
-                this.cy = 395 - this.halfHeight;
-        }
-
-        if (g_keys[this.GO_LEFT]) {
-            this.cx -= 5;
-            if (this.cx - this.halfWidth < this.EDGE_LEFT)
-                this.cx = this.EDGE_LEFT + this.halfWidth;
-        } else if (g_keys[this.GO_RIGHT]) {
-            this.cx += 5;
-            if (this.cx + this.halfWidth > this.EDGE_RIGHT)
-                this.cx = this.EDGE_RIGHT - this.halfWidth;
-        }
-
-
-    };
-
-    Paddle.prototype.render = function (ctx) {
-        // (cx, cy) is the centre; must offset it for drawing
-        ctx.fillRect(this.cx - this.halfWidth,
-            this.cy - this.halfHeight,
-            this.halfWidth * 2,
-            this.halfHeight * 2);
-    };
-
-    Paddle.prototype.collidesWith = function (prevX, prevY,
-        nextX, nextY,
-        r) {
-        var paddleEdge = this.cx;
-        // Check X coords
-        if ((nextX - r < paddleEdge && prevX - r >= paddleEdge) ||
-            (nextX + r > paddleEdge && prevX + r <= paddleEdge)) {
-            // Check Y coords
-            if (nextY + r >= this.cy - this.halfHeight &&
-                nextY - r <= this.cy + this.halfHeight) {
-                // It's a hit!
-                return true;
-            }
-        }
-        // It's a miss!
-        return false;
-    };
 
     // PADDLE 1
 
@@ -98,8 +28,8 @@ function startGame(g_canvas) {
     var KEY_D = 'D'.charCodeAt(0);
 
     var g_paddle1 = new Paddle({
-        cx: 30,
-        cy: 100,
+        cx: g_canvas.width / 2,
+        cy: g_canvas.height - 30,
 
         GO_UP: KEY_W,
         GO_DOWN: KEY_S,
@@ -109,24 +39,6 @@ function startGame(g_canvas) {
         EDGE_RIGHT: 100
     });
 
-    // PADDLE 2
-
-    var KEY_I = 'I'.charCodeAt(0);
-    var KEY_K = 'K'.charCodeAt(0);
-    var KEY_J = 'J'.charCodeAt(0);
-    var KEY_L = 'L'.charCodeAt(0);
-
-    var g_paddle2 = new Paddle({
-        cx: 370,
-        cy: 300,
-
-        GO_UP: KEY_I,
-        GO_DOWN: KEY_K,
-        GO_LEFT: KEY_J,
-        GO_RIGHT: KEY_L,
-        EDGE_LEFT: 300,
-        EDGE_RIGHT: 395
-    });
 
     // ==========
     // BALL STUFF
@@ -164,7 +76,13 @@ function startGame(g_canvas) {
 
 
 
- 
+    var g_wall = new Wall({
+        rows: 5,
+        columns: 10,
+
+        top: 50,
+        bottom: 150
+    });
 
     // =================
     // UPDATE SIMULATION
@@ -173,11 +91,11 @@ function startGame(g_canvas) {
     function updateSimulation() {
         if (shouldSkipUpdate()) return;
 
-        g_ball1.update([g_paddle1,g_paddle2]);
-        g_ball2.update([g_paddle1,g_paddle2]);
+        g_ball1.update([g_paddle1]);
+        g_ball2.update([g_paddle1]);
 
         g_paddle1.update();
-        g_paddle2.update();
+        //g_paddle2.update();
     }
 
     // Togglable Pause Mode
@@ -204,12 +122,12 @@ function startGame(g_canvas) {
         g_ball1.render(ctx);
         g_ball2.render(ctx);
         g_paddle1.render(ctx);
-        g_paddle2.render(ctx);
-
+        //g_paddle2.render(ctx);
+        g_wall.render(ctx);
         ctx.font = "bold 40px Arial";
         ctx.textAlign = "center";
         ctx.fillText(roundToTen(g_paddle1.score), 50, 35);
-        ctx.fillText(roundToTen(g_paddle2.score), 350, 35);
+        //ctx.fillText(roundToTen(g_paddle2.score), 350, 35);
     }
 
     function roundToTen(n) {
@@ -249,5 +167,5 @@ function startGame(g_canvas) {
     //
     var intervalID = window.setInterval(mainIter, 16.666);
 
-    //window.focus();
+    window.focus();
 }
