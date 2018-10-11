@@ -28,8 +28,8 @@ function startGame(g_canvas) {
     var KEY_D = 'D'.charCodeAt(0);
 
     var g_paddle1 = new Paddle({
-        cx: g_canvas.width/2,
-        cy: g_canvas.height-30,
+        cx: g_canvas.width / 2,
+        cy: g_canvas.height - 30,
 
         GO_UP: KEY_W,
         GO_DOWN: KEY_S,
@@ -76,7 +76,13 @@ function startGame(g_canvas) {
 
 
 
+    var g_wall = new Wall({
+        rows: 5,
+        columns: 10,
 
+        top: 50,
+        bottom: 150
+    });
 
     // =================
     // UPDATE SIMULATION
@@ -117,7 +123,7 @@ function startGame(g_canvas) {
         g_ball2.render(ctx);
         g_paddle1.render(ctx);
         //g_paddle2.render(ctx);
-
+        g_wall.render(ctx);
         ctx.font = "bold 40px Arial";
         ctx.textAlign = "center";
         ctx.fillText(roundToTen(g_paddle1.score), 50, 35);
