@@ -20,7 +20,7 @@
         
         for (let i = 0; i < paddles.length; i++) {
             if (paddles[i].collidesWith(prevX, prevY, nextX, nextY, this.radius)) {
-                this.xVel *= -1;
+                this.yVel *= -1;
             }
             
         }
@@ -75,7 +75,7 @@
         if (this.cx < g_canvas.width/2) {
             paddles[0].score++;
         } else {
-            paddles[1].score++;
+            //paddles[1].score++;
         }
 
     }
