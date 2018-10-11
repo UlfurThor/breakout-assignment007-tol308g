@@ -72,7 +72,7 @@
     Ball.prototype.score = function (paddles) {
 
 
-        if (this.cx < 200) {
+        if (this.cx < g_canvas.width/2) {
             paddles[0].score++;
         } else {
             paddles[1].score++;

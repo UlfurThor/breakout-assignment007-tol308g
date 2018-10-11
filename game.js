@@ -41,14 +41,17 @@ function startGame(g_canvas) {
     Paddle.prototype.update = function () {
         //This is set to leave a 5 px gap between the edge and paddle
         //     Looks better that way
+        var edgeOfset = 20;
+        var screenMaxOfset = g_canvas.height - edgeOfset;
+
         if (g_keys[this.GO_UP]) {
             this.cy -= 5;
-            if (this.cy - this.halfHeight < 5)
-                this.cy = 5 + this.halfHeight;
+            if (this.cy - this.halfHeight < edgeOfset)
+                this.cy = edgeOfset + this.halfHeight;
         } else if (g_keys[this.GO_DOWN]) {
             this.cy += 5;
-            if (this.cy + this.halfHeight > 395)
-                this.cy = 395 - this.halfHeight;
+            if (this.cy + this.halfHeight > screenMaxOfset)
+                this.cy = (screenMaxOfset) - this.halfHeight;
         }
 
         if (g_keys[this.GO_LEFT]) {
@@ -164,7 +167,7 @@ function startGame(g_canvas) {
 
 
 
- 
+
 
     // =================
     // UPDATE SIMULATION
@@ -173,8 +176,8 @@ function startGame(g_canvas) {
     function updateSimulation() {
         if (shouldSkipUpdate()) return;
 
-        g_ball1.update([g_paddle1,g_paddle2]);
-        g_ball2.update([g_paddle1,g_paddle2]);
+        g_ball1.update([g_paddle1, g_paddle2]);
+        g_ball2.update([g_paddle1, g_paddle2]);
 
         g_paddle1.update();
         g_paddle2.update();
