@@ -15,31 +15,38 @@
     Paddle.prototype.halfHeight = PADDLE_HEIGHT / 2;
     Paddle.prototype.score = 0;
 
-
     Paddle.prototype.update = function () {
         //This is set to leave a 5 px gap between the edge and paddle
         //     Looks better that way
         var edgeOfset = 20;
-        var screenMaxOfset = g_canvas.height - edgeOfset;
-        /*
-                if (g_keys[this.GO_UP]) {
-                    this.cy -= 5;
-                    if (this.cy - this.halfHeight < edgeOfset)
-                        this.cy = edgeOfset + this.halfHeight;
-                } else if (g_keys[this.GO_DOWN]) {
-                    this.cy += 5;
-                    if (this.cy + this.halfHeight > screenMaxOfset)
-                        this.cy = (screenMaxOfset) - this.halfHeight;
-                }
-        */
+        var screenMaxOfset = g_canvas.width - edgeOfset;
+
+        if (g_keys[this.GO_UP]) {
+            this.cy -= 5;
+
+            if (this.cy - this.halfHeight < edgeOfset)
+                this.cy = edgeOfset + this.halfHeight;
+            //else g_canvas.height -= 5;
+        } else if (g_keys[this.GO_DOWN]) {
+            this.cy += 5;
+            if (this.cy + this.halfHeight > screenMaxOfset)
+                this.cy = (screenMaxOfset) - this.halfHeight;
+            //else g_canvas.height += 5;
+        }
+
         if (g_keys[this.GO_LEFT]) {
             this.cx -= 5;
             if (this.cx - this.halfWidth < edgeOfset)
                 this.cx = this.halfWidth + edgeOfset;
+            //else g_canvas.width -= 5;
+
+
         } else if (g_keys[this.GO_RIGHT]) {
             this.cx += 5;
             if (this.cx + this.halfWidth > screenMaxOfset)
                 this.cx = screenMaxOfset - this.halfWidth;
+            //else g_canvas.width += 5;
+
         }
 
 
