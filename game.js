@@ -22,19 +22,16 @@ function startGame(g_canvas) {
 
     // PADDLE 1
 
-    var KEY_W = 'W'.charCodeAt(0);
-    var KEY_S = 'S'.charCodeAt(0);
-    var KEY_A = 'A'.charCodeAt(0);
-    var KEY_D = 'D'.charCodeAt(0);
+
 
     var g_paddle1 = new Paddle({
         cx: g_canvas.width / 2,
         cy: g_canvas.height - 30,
 
-        GO_UP: KEY_W,
-        GO_DOWN: KEY_S,
-        GO_LEFT: KEY_A,
-        GO_RIGHT: KEY_D,
+        GO_UP: KEY_PADDLE_1_UP,
+        GO_DOWN: KEY_PADDLE_1_DOWN,
+        GO_LEFT: KEY_PADDLE_1_LEFT,
+        GO_RIGHT: KEY_PADDLE_1_RIGHT,
         EDGE_LEFT: 5,
         EDGE_RIGHT: 100
     });
