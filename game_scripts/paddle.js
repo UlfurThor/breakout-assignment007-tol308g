@@ -63,13 +63,13 @@
     Paddle.prototype.collidesWith = function (prevX, prevY,
         nextX, nextY,
         r) {
-        var paddleEdge = this.cx;
+        var paddleEdge = this.cy;
         // Check X coords
-        if ((nextX - r < paddleEdge && prevX - r >= paddleEdge) ||
-            (nextX + r > paddleEdge && prevX + r <= paddleEdge)) {
+        if ((nextY - r < paddleEdge && prevY - r >= paddleEdge) ||
+            (nextY + r > paddleEdge && prevY + r <= paddleEdge)) {
             // Check Y coords
-            if (nextY + r >= this.cy - this.halfHeight &&
-                nextY - r <= this.cy + this.halfHeight) {
+            if (nextX + r >= this.cx - this.halfWidth &&
+                nextX - r <= this.cx + this.halfWidth) {
                 // It's a hit!
                 return true;
             }
