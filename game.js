@@ -153,5 +153,3 @@ function updateSimulation(du) {
     g_extraShip2.update(du / 4);
     g_extraShip2.update(du / 4);
 }
-
-var asdasdasd;
