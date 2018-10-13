@@ -1,4 +1,15 @@
 // dev test
+// -------------------------
+// GAME-SPECIFIC DIAGNOSTICS
+// -------------------------
+
+var g_allowMixedActions = true;
+var g_useExtras = true;
+var g_useGravity = false;
+
+// new diagonstic setings
+var u_useMarker = false;
+var u_useMouse = false;
 
 function processDiagnostics() {
 

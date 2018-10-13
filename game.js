@@ -2,6 +2,12 @@ var g_paddles = [];
 var g_main;
 var g_ctx;
 
+var g_shipSprite;
+var g_ship;
+
+var g_extraShip1;
+var g_extraShip2;
+
 function startGame(g_canvas) {
 /*
 Good job! Unfortunately there are some errors.
@@ -96,11 +102,10 @@ Create additional helper-functions as and when you need them.
 
 /* jshint browser: true, devel: true, globalstrict: true */
 
-var g_canvas = document.getElementById("myCanvas");
+//var g_canvas = document.getElementById("myCanvas");
 var g_ctx = g_canvas.getContext("2d");
 
-g_canvas.width = g_ctx.canvas.width;
-g_canvas.height = g_ctx.canvas.height;
+
 
 /*
 0        1         2         3         4         5         6         7         8         9
@@ -253,10 +258,10 @@ function Ship(descr) {
     this.reset_rotation = this.rotation;
 }
 
-Ship.prototype.KEY_THRUST = keyCode('W');
-Ship.prototype.KEY_RETRO = keyCode('S');
-Ship.prototype.KEY_LEFT = keyCode('A');
-Ship.prototype.KEY_RIGHT = keyCode('D');
+Ship.prototype.KEY_THRUST = KEY_SHIP_THRUST;
+Ship.prototype.KEY_RETRO = KEY_SHIP_RETRO;
+Ship.prototype.KEY_LEFT = KEY_SHIP_LEFT;
+Ship.prototype.KEY_RIGHT = KEY_SHIP_RIGHT;
 
 // Initial inheritable default values
 Ship.prototype.velX = 0;
@@ -413,48 +418,24 @@ Ship.prototype.render = function (ctx) {
 // CONSTRUCT THE SHIPS
 // -------------------
 
-var g_ship = new Ship({
+g_ship = new Ship({
     cx: 140,
     cy: 200
 });
 
-var g_extraShip1 = new Ship({
+g_extraShip1 = new Ship({
     cx: 200,
     cy: 200
 });
 
-var g_extraShip2 = new Ship({
+g_extraShip2 = new Ship({
     cx: 260,
     cy: 200
 });
 
-// =====
-// UTILS
-// =====
 
-function clearCanvas(ctx) {
-    var prevfillStyle = ctx.fillStyle;
-    ctx.fillStyle = "black";
-    ctx.fillRect(0, 0, ctx.canvas.width, ctx.canvas.height);
-    ctx.fillStyle = prevfillStyle;
-}
 
-function fillCircle(ctx, x, y, r) {
-    ctx.beginPath();
-    ctx.arc(x, y, r, 0, Math.PI * 2);
-    ctx.fill();
-}
 
-function fillBox(ctx, x, y, w, h, style) {
-    var oldStyle = ctx.fillStyle;
-    ctx.fillStyle = style;
-    ctx.fillRect(x, y, w, h);
-    ctx.fillStyle = oldStyle;
-}
-
-function keyCode(keyChar) {
-    return keyChar.charCodeAt(0);
-}
 
 // =============
 // GATHER INPUTS
@@ -480,44 +461,10 @@ function gatherInputs() {
 // GAME-SPECIFIC UPDATE LOGIC
 // --------------------------
 
-function updateSimulation(du) {
 
-    processDiagnostics();
 
-    g_ship.update(du);
 
-    if (!g_useExtras) return;
 
-    g_extraShip1.update(du / 2);
-    g_extraShip1.update(du / 2);
-
-    g_extraShip2.update(du / 4);
-    g_extraShip2.update(du / 4);
-    g_extraShip2.update(du / 4);
-    g_extraShip2.update(du / 4);
-}
-
-// -------------------------
-// GAME-SPECIFIC DIAGNOSTICS
-// -------------------------
-
-var g_allowMixedActions = true;
-var g_useExtras = true;
-var g_useGravity = false;
-
-var KEY_EXTRAS = keyCode('E');
-var KEY_GRAVITY = keyCode('G');
-var KEY_MIXED = keyCode('M');
-
-var KEY_HALT = keyCode('H');
-var KEY_RESET = keyCode('R');
-
-// new diagonstic setings
-var u_useMarker = false;
-var u_useMouse = false;
-
-var KEY_TARGET = keyCode('T');
-var KEY_MOUSE = keyCode('I');
 
 function processDiagnostics() {
 
@@ -574,7 +521,7 @@ function processDiagnostics_message() {
 }
 
 function message_Update(id, message) {
-    //document.getElementById(id).innerHTML = message;
+    document.getElementById(id).innerHTML = message;
 }
 
 // --------------------
@@ -631,9 +578,6 @@ function update(dt) {
 
 // Togglable Pause Mode
 //
-var KEY_PAUSE = 'P'.charCodeAt(0);
-var KEY_STEP = 'O'.charCodeAt(0);
-
 var g_isUpdatePaused = false;
 
 function shouldSkipUpdate() {
@@ -643,121 +587,22 @@ function shouldSkipUpdate() {
     return g_isUpdatePaused && !eatKey(KEY_STEP);
 }
 
-// =================
-// RENDER SIMULATION
-// =================
-
-// We take a very layered approach here...
-//
-// The primary `render` routine handles generic stuff such as
-// the diagnostic toggles (including screen-clearing).
-//
-// It then delegates the game-specific logic to `gameRender`
-
-// -----------------------
-// GAME-SPECIFIC RENDERING
-// -----------------------
-
-function renderSimulation(ctx) {
-
-    g_ship.render(ctx);
-    if (u_useMouse)
-        g_shipSprite.drawWrappedCentredAt(ctx, xx, yy, rr);
-
-    if (!g_useExtras) return;
-
-    g_extraShip1.render(ctx);
-    g_extraShip2.render(ctx);
-}
-
-// -----------------
-// GENERIC RENDERING
-// -----------------
-
-var g_doClear = true;
-var g_doBox = false;
-var g_undoBox = false;
-var g_doFlipFlop = false;
-var g_doRender = true;
-
-var g_frameCounter = 1;
-
-var TOGGLE_CLEAR = 'C'.charCodeAt(0);
-var TOGGLE_BOX = 'B'.charCodeAt(0);
-var TOGGLE_UNDO_BOX = 'U'.charCodeAt(0);
-var TOGGLE_FLIPFLOP = 'F'.charCodeAt(0);
-var TOGGLE_RENDER = 'R'.charCodeAt(0);
-
-function render(ctx) {
-
-    // Process various option toggles
-    //
-    if (eatKey(TOGGLE_CLEAR)) g_doClear = !g_doClear;
-    if (eatKey(TOGGLE_BOX)) g_doBox = !g_doBox;
-    if (eatKey(TOGGLE_UNDO_BOX)) g_undoBox = !g_undoBox;
-    if (eatKey(TOGGLE_FLIPFLOP)) g_doFlipFlop = !g_doFlipFlop;
-
-    // Don't toggle rendering in this exercise,
-    // because we're going to "steal" that key to implement "reset" instead.
-    //if (eatKey(TOGGLE_RENDER)) g_doRender = !g_doRender;
-
-    // I've pulled the clear out of `renderSimulation()` and into
-    // here, so that it becomes part of our "diagnostic" wrappers
-    //
-    if (g_doClear) clearCanvas(ctx);
-
-    // The main purpose of the box is to demonstrate that it is
-    // always deleted by the subsequent "undo" before you get to
-    // see it...
-    //
-    // i.e. double-buffering prevents flicker!
-    //
-    if (g_doBox) fillBox(ctx, 200, 200, 50, 50, "red");
 
 
-    // The core rendering of the actual game / simulation
-    //
-    if (g_doRender) renderSimulation(ctx);
 
 
-    // This flip-flip mechanism illustrates the pattern of alternation
-    // between frames, which provides a crude illustration of whether
-    // we are running "in sync" with the display refresh rate.
-    //
-    // e.g. in pathological cases, we might only see the "even" frames.
-    //
-    if (g_doFlipFlop) {
-        var boxX = 250,
-            boxY = g_isUpdateOdd ? 100 : 200;
 
-        // Draw flip-flop box
-        fillBox(ctx, boxX, boxY, 50, 50, "green");
-
-        // Display the current frame-counter in the box...
-        ctx.fillText(g_frameCounter % 1000, boxX + 10, boxY + 20);
-        // ..and its odd/even status too
-        var text = g_frameCounter % 2 ? "odd" : "even";
-        ctx.fillText(text, boxX + 10, boxY + 40);
-    }
-
-    // Optional erasure of diagnostic "box",
-    // to illustrate flicker-proof double-buffering
-    //
-    if (g_undoBox) ctx.clearRect(200, 200, 50, 50);
-
-    ++g_frameCounter;
-}
 
 // =============
 // PRELOAD STUFF
 // =============
 
-var g_shipSprite;
+
 
 function preloadStuff_thenCall(completionCallback) {
     var g_shipImage = new Image();
-    g_shipImage.src = "img.jpg";//---
-
+    //g_shipImage.src = "img.jpg";//---
+    g_shipImage.src = "ship.png";
     g_shipImage.onload = function () {
         g_shipSprite = new Sprite(g_shipImage);
         completionCallback();

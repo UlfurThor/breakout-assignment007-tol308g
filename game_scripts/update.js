@@ -6,6 +6,7 @@
 // calibrated to e.g. a velocity unit is "pixels per nominal interval"
 //
 var NOMINAL_UPDATE_INTERVAL = 16.6666;
+//console.log(1000/60);
 
 // Dt means "delta time" and is in units of the timer-system (i.e. milliseconds)
 //
