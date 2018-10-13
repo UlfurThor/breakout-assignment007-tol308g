@@ -19,3 +19,8 @@ var KEY_W = 'W'.charCodeAt(0);
 var KEY_S = 'S'.charCodeAt(0);
 var KEY_A = 'A'.charCodeAt(0);
 var KEY_D = 'D'.charCodeAt(0);
+
+var KEY_QUIT = 'Q'.charCodeAt(0);
+
+var KEY_PAUSE = 'P'.charCodeAt(0);
+var KEY_STEP = 'O'.charCodeAt(0);
