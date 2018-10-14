@@ -8,6 +8,13 @@ function Wall(descr) {
     var w = g_canvas.width;
     var c = this.columns;
     var r = this.rows;
+
+    var h = this.bottom - this.top;
+    var w = g_canvas.width;
+    var c = this.columns;
+    var r = this.rows;
+    var hh = h / r;
+    var ww = w / c;
     this.briks = new Array(c);
     for (let i = 0; i < c; i++) {
         this.briks[i] = new Array(r);
@@ -17,7 +24,8 @@ function Wall(descr) {
             this.briks[i][j] = new Brick({
                 height: h / r,
                 width: w / c,
-
+                row : r,
+                column : c,
                 exists: true
             });
         }
@@ -96,7 +104,7 @@ Wall.prototype.collidesWith = function (prevX, prevY, nextX, nextY, radius) {
     var r = this.rows;
     var hh = h / r;
     var ww = w / c;
-var wallEmpty = true;
+    var wallEmpty = true;
     for (let i = 0; i < B.length; i++) {
         var cx = (ww * i);
         halfHeight = hh / 2;
@@ -149,7 +157,7 @@ var wallEmpty = true;
         }
 
     }
-    if (wallEmpty){
+    if (wallEmpty) {
         g_main.gameOver();
     }
     return 0;

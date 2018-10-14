@@ -7,3 +7,8 @@ function Brick(descr) {
     //console.log("brick made "+cc);
     //cc++;
 }
+
+
+Brick.render = function(ctx){
+    
+}
