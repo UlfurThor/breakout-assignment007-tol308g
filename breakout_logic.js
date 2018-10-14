@@ -31,28 +31,44 @@ var g_ctx = g_canvas.getContext("2d");
 
 // PADDLE 1
 
-var KEY_W = 'W'.charCodeAt(0);
-var KEY_S = 'S'.charCodeAt(0);
+//var g_paddles = [];
 
-var g_paddle1 = new Paddle({
-    cx : 30,
-    cy : 100,
-    
-    GO_UP   : KEY_W,
-    GO_DOWN : KEY_S
+//var g_paddle1 = new Paddle({
+g_paddles[0] = new Paddle({
+    cx: 200,
+    cy: 200,
+    id: 0,
+    //GO_UP: KEY_W,
+    //GO_DOWN: KEY_S
 });
-
+/*
 // PADDLE 2
 
-var KEY_I = 'I'.charCodeAt(0);
-var KEY_K = 'K'.charCodeAt(0);
+//var g_paddle2 = new Paddle({
+g_paddles[1] = new Paddle({
+    cx: 370,
+    cy: 300,
+    id: 1,
+    //GO_UP: KEY_I,
+    //GO_DOWN: KEY_K
+});
 
-var g_paddle2 = new Paddle({
-    cx : 370,
-    cy : 300,
-    
-    GO_UP   : KEY_I,
-    GO_DOWN : KEY_K
+//var g_paddle2 = new Paddle({
+g_paddles[2] = new Paddle({
+    cx: 200,
+    cy: 200,
+    id: 2,
+    //GO_UP: KEY_I,
+    //GO_DOWN: KEY_K
+});
+
+*/
+g_wall = new Wall({
+    rows: 5,
+    columns: 10,
+
+    top: 50,
+    bottom: 150
 });
 
 // =============
@@ -79,11 +95,11 @@ function gatherInputs() {
 // GAME-SPECIFIC UPDATE LOGIC
 
 function updateSimulation(du) {
-    
+
     g_ball.update(du);
+
+    g_paddles.update(du);
     
-    g_paddle1.update(du);
-    g_paddle2.update(du);
 }
 
 
@@ -104,9 +120,10 @@ function updateSimulation(du) {
 function renderSimulation(ctx) {
 
     g_ball.render(ctx);
-    
-    g_paddle1.render(ctx);
-    g_paddle2.render(ctx);
+
+    g_paddles.render(ctx);
+    //g_paddle1.render(ctx);
+    //g_paddle2.render(ctx);
 }
 
 // Kick it off

@@ -17,31 +17,43 @@ g_ball.update = function (du) {
     // Remember my previous position
     var prevX = this.cx;
     var prevY = this.cy;
-    
+
     // Compute my provisional new position (barring collisions)
     var nextX = prevX + this.xVel * du;
     var nextY = prevY + this.yVel * du;
 
-    // Bounce off the paddles
-    if (g_paddle1.collidesWith(prevX, prevY, nextX, nextY, this.radius) ||
-        g_paddle2.collidesWith(prevX, prevY, nextX, nextY, this.radius))
-    {
-        this.xVel *= -1;
-    }
-    
-    // Bounce off top and bottom edges
-    if (nextY < 0 ||                             // top edge
-        nextY > g_canvas.height) {               // bottom edge
+    var hit = g_paddles.collidesWith(prevX, prevY, nextX, nextY, this.radius);
+    if (hit > 0)
         this.yVel *= -1;
+    else if (hit < 0)
+        this.xVel *= -1;
+
+
+    var wallHit = g_wall.collidesWith(prevX, prevY, nextX, nextY, this.radius);
+    if (wallHit > 0)
+        this.yVel *= -1;
+    else if (wallHit < 0)
+        this.xVel *= -1;
+
+    // Bounce off top and bottom edges
+    if (nextY < 0 || // top edge
+        nextY > g_canvas.height) { // bottom edge
+        this.yVel *= -1;
+    }
+
+    if (nextX < 0 || // top edge
+        nextX > g_canvas.width) { // bottom edge
+        this.xVel *= -1;
     }
 
     // Reset if we fall off the left or right edges
     // ...by more than some arbitrary `margin`
     //
     var margin = 4 * this.radius;
-    if (nextX < -margin || 
+    if (nextX < -margin ||
         nextX > g_canvas.width + margin) {
-        this.reset();
+        //this.reset();
+        console.log("off");
     }
 
     // *Actually* update my position 

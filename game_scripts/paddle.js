@@ -8,39 +8,74 @@ function Paddle(descr) {
 // Add these properties to the prototype, where they will server as
 // shared defaults, in the absence of an instance-specific overrides.
 
-Paddle.prototype.halfWidth = 10;
-Paddle.prototype.halfHeight = 50;
+Paddle.prototype.halfWidth = 100;
+Paddle.prototype.halfHeight = 10;
 
 Paddle.prototype.update = function (du) {
-    if (g_keys[this.GO_UP]) {
+    if (g_keys[GO_UP[this.id]]) {
         this.cy -= 5 * du;
-    } else if (g_keys[this.GO_DOWN]) {
+    } else if (g_keys[GO_DOWN[this.id]]) {
         this.cy += 5 * du;
+    }
+
+    if (g_keys[GO_LEFT[this.id]]) {
+        this.cx -= 5 * du;
+    } else if (g_keys[GO_RIGHT[this.id]]) {
+        this.cx += 5 * du;
     }
 };
 
 Paddle.prototype.render = function (ctx) {
     // (cx, cy) is the centre; must offset it for drawing
-    ctx.fillRect(this.cx - this.halfWidth,
+    ctx.strokeRect(this.cx - this.halfWidth,
+        //sctx.fillRect(this.cx - this.halfWidth,
         this.cy - this.halfHeight,
         this.halfWidth * 2,
         this.halfHeight * 2);
 };
 
-Paddle.prototype.collidesWith = function (prevX, prevY,
+
+// cheks not only for colision, but the direction of said colision
+Paddle.prototype.collidesWith = function (
+    prevX, prevY,
     nextX, nextY,
     r) {
-    var paddleEdge = this.cx;
-    // Check X coords
-    if ((nextX - r < paddleEdge && prevX - r >= paddleEdge) ||
-        (nextX + r > paddleEdge && prevX + r <= paddleEdge)) {
+    var cy = this.cy;
+    var cx = this.cx;
+
+
+    if ((nextY - r < cy + this.halfHeight && prevY - r >= cy + this.halfHeight)) {
         // Check Y coords
-        if (nextY + r >= this.cy - this.halfHeight &&
-            nextY - r <= this.cy + this.halfHeight) {
+        if (nextX + r >= cx - this.halfWidth &&
+            nextX - r <= cx + this.halfWidth) {
             // It's a hit!
-            return true;
+            console.log("bottom");
+            return 1;
+        }
+    } else if ((nextY + r > cy - this.halfHeight && prevY + r <= cy - this.halfHeight)) {
+        if (nextX + r >= cx - this.halfWidth &&
+            nextX - r <= cx + this.halfWidth) {
+            // It's a hit!
+            console.log("top");
+            return 2;
+        }
+    } else if ((nextX - r < cx + this.halfWidth && prevX - r >= cy + this.halfWidth)) {
+        // Check X coords
+        if (nextY + r >= cy - this.halfHeight &&
+            nextY - r <= cy + this.halfHeight) {
+            // It's a hit!
+            console.log("right");
+            return -1;
+        }
+    } else if ((nextX + r > cx - this.halfWidth && prevX + r <= cy - this.halfWidth)) {
+        if (nextY + r >= cy - this.halfHeight &&
+            nextY - r <= cy + this.halfHeight) {
+            // It's a hit!
+            console.log("left");
+            return -2;
         }
     }
+
     // It's a miss!
-    return false;
+    return 0;
 };

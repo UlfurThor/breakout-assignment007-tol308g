@@ -56,6 +56,7 @@ g_main._iterCore = function (dt) {
     gatherInputs();
     update(dt);
     render(g_ctx);
+    g_wall.render(g_ctx);
 };
 
 g_main._isGameOver = false;
@@ -68,7 +69,7 @@ g_main.gameOver = function () {
 // Simple voluntary quit mechanism
 //
 
-var KEY_QUIT = 'Q'.charCodeAt(0);
+
 
 function requestedQuit() {
     if (QUIT_ENABLED)
@@ -94,7 +95,7 @@ g_main._requestNextIteration = function () {
 
 // Mainloop-level debug-rendering
 
-var TOGGLE_TIMER_SHOW = 'T'.charCodeAt(0);
+
 
 g_main._doTimerShow = false;
 

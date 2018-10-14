@@ -23,5 +23,14 @@ function eatKey(keyCode) {
     return isDown;
 }
 
+// =============
+// GATHER INPUTS
+// =============
+
+function gatherInputs() {
+    // Nothing to do here!
+    // The event handlers do everything we need for now.
+}
+
 window.addEventListener("keydown", handleKeydown);
 window.addEventListener("keyup", handleKeyup);
