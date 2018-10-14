@@ -1,79 +1,81 @@
-    var PADDLE_WIDTH = 100;
-    var PADDLE_HEIGHT = 20;
+// A generic constructor which accepts an arbitrary descriptor object
+function Paddle(descr) {
+    for (var property in descr) {
+        this[property] = descr[property];
+    }
+}
 
-    // A generic contructor which accepts an arbitrary descriptor object
-    function Paddle(descr) {
-        for (var property in descr) {
-            this[property] = descr[property];
+// Add these properties to the prototype, where they will server as
+// shared defaults, in the absence of an instance-specific overrides.
+
+Paddle.prototype.halfWidth = 100;
+Paddle.prototype.halfHeight = 10;
+
+Paddle.prototype.update = function (du) {
+    if (g_keys[GO_UP[this.id]]) {
+        this.cy -= 5 * du;
+    } else if (g_keys[GO_DOWN[this.id]]) {
+        this.cy += 5 * du;
+    }
+
+    if (g_keys[GO_LEFT[this.id]]) {
+        this.cx -= 5 * du;
+    } else if (g_keys[GO_RIGHT[this.id]]) {
+        this.cx += 5 * du;
+    }
+};
+
+Paddle.prototype.render = function (ctx) {
+    // (cx, cy) is the centre; must offset it for drawing
+    ctx.strokeRect(this.cx - this.halfWidth,
+        //sctx.fillRect(this.cx - this.halfWidth,
+        this.cy - this.halfHeight,
+        this.halfWidth * 2,
+        this.halfHeight * 2);
+};
+
+
+// cheks not only for colision, but the direction of said colision
+Paddle.prototype.collidesWith = function (
+    prevX, prevY,
+    nextX, nextY,
+    r) {
+    var cy = this.cy;
+    var cx = this.cx;
+
+
+    if ((nextY - r < cy + this.halfHeight && prevY - r >= cy + this.halfHeight)) {
+        // Check Y coords
+        if (nextX + r >= cx - this.halfWidth &&
+            nextX - r <= cx + this.halfWidth) {
+            // It's a hit!
+            console.log("bottom");
+            return 1;
+        }
+    } else if ((nextY + r > cy - this.halfHeight && prevY + r <= cy - this.halfHeight)) {
+        if (nextX + r >= cx - this.halfWidth &&
+            nextX - r <= cx + this.halfWidth) {
+            // It's a hit!
+            console.log("top");
+            return 2;
+        }
+    } else if ((nextX - r < cx + this.halfWidth && prevX - r >= cy + this.halfWidth)) {
+        // Check X coords
+        if (nextY + r >= cy - this.halfHeight &&
+            nextY - r <= cy + this.halfHeight) {
+            // It's a hit!
+            console.log("right");
+            return -1;
+        }
+    } else if ((nextX + r > cx - this.halfWidth && prevX + r <= cy - this.halfWidth)) {
+        if (nextY + r >= cy - this.halfHeight &&
+            nextY - r <= cy + this.halfHeight) {
+            // It's a hit!
+            console.log("left");
+            return -2;
         }
     }
 
-    // Add these properties to the prototype, where they will serve as
-    // shared defaults, in the absence of an instance-specific overrides.
-
-    Paddle.prototype.halfWidth = PADDLE_WIDTH / 2;
-    Paddle.prototype.halfHeight = PADDLE_HEIGHT / 2;
-    Paddle.prototype.score = 0;
-
-    Paddle.prototype.update = function () {
-        //This is set to leave a 5 px gap between the edge and paddle
-        //     Looks better that way
-        var edgeOfset = 20;
-        var screenMaxOfset = g_canvas.width - edgeOfset;
-
-        if (g_keys[this.GO_UP]) {
-            this.cy -= 5;
-
-            if (this.cy - this.halfHeight < edgeOfset)
-                this.cy = edgeOfset + this.halfHeight;
-            //else g_canvas.height -= 5;
-        } else if (g_keys[this.GO_DOWN]) {
-            this.cy += 5;
-            if (this.cy + this.halfHeight > screenMaxOfset)
-                this.cy = (screenMaxOfset) - this.halfHeight;
-            //else g_canvas.height += 5;
-        }
-
-        if (g_keys[this.GO_LEFT]) {
-            this.cx -= 5;
-            if (this.cx - this.halfWidth < edgeOfset)
-                this.cx = this.halfWidth + edgeOfset;
-            //else g_canvas.width -= 5;
-
-
-        } else if (g_keys[this.GO_RIGHT]) {
-            this.cx += 5;
-            if (this.cx + this.halfWidth > screenMaxOfset)
-                this.cx = screenMaxOfset - this.halfWidth;
-            //else g_canvas.width += 5;
-
-        }
-
-
-    };
-
-    Paddle.prototype.render = function (ctx) {
-        // (cx, cy) is the centre; must offset it for drawing
-        ctx.fillRect(this.cx - this.halfWidth,
-            this.cy - this.halfHeight,
-            this.halfWidth * 2,
-            this.halfHeight * 2);
-    };
-
-    Paddle.prototype.collidesWith = function (prevX, prevY,
-        nextX, nextY,
-        r) {
-        var paddleEdge = this.cx;
-        // Check X coords
-        if ((nextX - r < paddleEdge && prevX - r >= paddleEdge) ||
-            (nextX + r > paddleEdge && prevX + r <= paddleEdge)) {
-            // Check Y coords
-            if (nextY + r >= this.cy - this.halfHeight &&
-                nextY - r <= this.cy + this.halfHeight) {
-                // It's a hit!
-                return true;
-            }
-        }
-        // It's a miss!
-        return false;
-    };
+    // It's a miss!
+    return 0;
+};

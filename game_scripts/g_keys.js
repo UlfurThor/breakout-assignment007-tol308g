@@ -1,3 +1,6 @@
+// =================
+// KEYBOARD HANDLING
+// =================
 
 var g_keys = [];
 
@@ -20,11 +23,14 @@ function eatKey(keyCode) {
     return isDown;
 }
 
-   // =============
-    // GATHER INPUTS
-    // =============
+// =============
+// GATHER INPUTS
+// =============
 
-    function gatherInputs() {
-        // Nothing to do here!
-        // The event handlers do everything we need for now.
-    }
+function gatherInputs() {
+    // Nothing to do here!
+    // The event handlers do everything we need for now.
+}
+
+window.addEventListener("keydown", handleKeydown);
+window.addEventListener("keyup", handleKeyup);

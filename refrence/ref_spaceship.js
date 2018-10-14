@@ -166,9 +166,12 @@ window.addEventListener("mousemove", handleMouse);
 function Sprite(image) {
 
     this.image = image;
+    this.imgHeight = 100;
+    this.imgWidth = 100;
+/*
     this.imgHeight = image.height;
     this.imgWidth = image.width;
-
+*/
 }
 
 Sprite.prototype.drawCentredAt = function (ctx, cx, cy, rotation, scale) {
@@ -748,13 +751,14 @@ var g_shipSprite;
 
 function preloadStuff_thenCall(completionCallback) {
     var g_shipImage = new Image();
+    g_shipImage.src = "img.jpg";//---
 
     g_shipImage.onload = function () {
         g_shipSprite = new Sprite(g_shipImage);
         completionCallback();
     };
 
-    g_shipImage.src = "https://notendur.hi.is/~pk/308G/images/ship.png";
+    //g_shipImage.src = "https://notendur.hi.is/~pk/308G/images/ship.png";
     //g_shipImage.src = "https://notendur.hi.is/~uth16/games_design/rocketshiptothestarsdotjeypeg.png";
 }
 

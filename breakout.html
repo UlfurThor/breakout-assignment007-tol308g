@@ -2,19 +2,24 @@
 <html>
 
 <head>
+   
     <meta charset="utf-8" />
+
     <title id="headder_title">!!!Ultra mega BrEaKoUt!</title>
     <link rel="stylesheet" href="style.css">
-    <script type="text/javascript" src="game_scripts/ball.js"></script>
+    
+    <script type="text/javascript" src="game_scripts/g_keybinds.js"></script>
+    <script type="text/javascript" src="game_scripts/g_ball.js"></script>
+    <script type="text/javascript" src="game_scripts/g_keys.js"></script>
+    <script type="text/javascript" src="game_scripts/g_main.js"></script>
+    <script type="text/javascript" src="game_scripts/g_paddles.js"></script>
+    <script type="text/javascript" src="game_scripts/g_wall.js"></script>
     <script type="text/javascript" src="game_scripts/brick.js"></script>
-    <script type="text/javascript" src="game_scripts/control.js"></script>
-    <script type="text/javascript" src="game_scripts/paddle.js"></script>
+    <script type="text/javascript" src="game_scripts/Paddle.js"></script>
     <script type="text/javascript" src="game_scripts/render.js"></script>
-    <script type="text/javascript" src="game_scripts/wall.js"></script>
-    <script type="text/javascript" src="game_scripts/keybinds.js"></script>
-    <script type="text/javascript" src="game.js"></script>
+    <script type="text/javascript" src="game_scripts/update.js"></script>
+    <script type="text/javascript" src="game_scripts/utils.js"></script>
 
-    <script type="text/javascript" src="dev/test.js"></script>
 </head>
 
 <body>
@@ -22,9 +27,29 @@
     <canvas id="myCanvas" width="400" height="400" style="border:1px solid black;">
         Sorry, your browser does not support the HTML5 canvas tag.
     </canvas>
+    <br>
+    <br>
+    <br>
+    <div id="keybinds">
+        W: Thrust <br> S: Retro Thrust<br> A/D : Turn <br>
+        <br>
+        <div id="mess_extra">E: Extra ships </div>
+        <div id="mess_grav">G: Gravity</div>
+        <div id="mess_mixed">M: Mixed inputs</div>
+        <div id="mess_target">T: main ship markers</div>
+        <div id="mess_Mouse">I: ship at mouse</div>
+        H: Halt <br> R: Reset<br> Q: quit
 
-    <script type="text/javascript" src="breakout.js"></script>
-    
+
+    </div>
+    <br>
+    <br>
+    <br>
+    <div id="messageBox">
+    </div>
+
+
+    <script type="text/javascript" src="breakout_logic.js"></script>
 
 </body>
 
