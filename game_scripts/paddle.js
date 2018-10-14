@@ -19,16 +19,26 @@ Paddle.prototype.update = function (du) {
     }
 
     if (g_keys[GO_LEFT[this.id]]) {
-        this.cx -= 5 * du;
+        g_canvas.width -= 5 * du;
+        if (g_canvas.width < 100) {
+            g_canvas.width = 100;
+        }
+        this.cx = g_canvas.width / 2;
+        //this.cx -= 5 * du;
     } else if (g_keys[GO_RIGHT[this.id]]) {
-        this.cx += 5 * du;
+        g_canvas.width += 5 * du;
+        if (g_canvas.width > 1600) {
+            g_canvas.width = 1600;
+        }
+        this.cx = g_canvas.width / 2;
+        //this.cx += 5 * du;
     }
 };
 
 Paddle.prototype.render = function (ctx) {
     // (cx, cy) is the centre; must offset it for drawing
-    ctx.strokeRect(this.cx - this.halfWidth,
-        //sctx.fillRect(this.cx - this.halfWidth,
+    //ctx.strokeRect(this.cx - this.halfWidth,
+    ctx.fillRect(this.cx - this.halfWidth,
         this.cy - this.halfHeight,
         this.halfWidth * 2,
         this.halfHeight * 2);

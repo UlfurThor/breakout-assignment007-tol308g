@@ -2,62 +2,64 @@ function Wall(descr) {
     for (var property in descr) {
         this[property] = descr[property];
     }
-    this.briks = [];
-
-    var h = this.bottom - this.top;
-    var w = g_canvas.width;
-    var c = this.columns;
-    var r = this.rows;
-
-    var h = this.bottom - this.top;
-    var w = g_canvas.width;
-    var c = this.columns;
-    var r = this.rows;
-    var hh = h / r;
-    var ww = w / c;
-    this.briks = new Array(c);
-    for (let i = 0; i < c; i++) {
-        this.briks[i] = new Array(r);
-        for (let j = 0; j < r; j++) {
+    this.bricks = [];
 
 
-            this.briks[i][j] = new Brick({
-                height: h / r,
-                width: w / c,
-                row : r,
-                column : c,
-                exists: true
+    this.height = this.bottom - this.top;
+    this.width = g_canvas.width;
+    this.brickHeight = this.height / this.rows;
+    this.brickWidth = this.width / this.columns;
+    this.bricks = new Array(this.columns);
+
+    for (let i = 0; i < this.columns; i++) {
+        this.bricks[i] = new Array(this.rows);
+        for (let j = 0; j < this.rows; j++) {
+
+
+            this.bricks[i][j] = new Brick({
+                cx: this.brickWidth * i + this.brickWidth / 2,
+                cy: this.top + this.brickHeight * j + this.brickHeight / 2,
+                height: this.brickHeight,
+                width: this.brickWidth,
+                row: this.rows,
+                column: this.columns,
+                exists: true,
+                debris: 0
             });
         }
 
     }
 }
 
-var marginSide = 2;
-var marginToppBottom = 2;
+var BRICK_MARGIN_SIDES = 2;
+var BRICK_MARGIN_TB = 2;
 
 Wall.prototype.render = function (ctx) {
-    var B = this.briks;
-    var h = this.bottom - this.top;
-    var w = g_canvas.width;
-    var c = this.columns;
-    var r = this.rows;
-    var hh = h / r;
-    var ww = w / c;
+    var B = this.bricks;
+    this.height = this.bottom - this.top;
+    this.width = g_canvas.width;
+    this.brickHeight = this.height / this.rows;
+    this.brickWidth = this.width / this.columns;
 
-    for (let i = 0; i < B.length; i++) {
-        var cx = ww * i;
-        for (let j = 0; j < B[i].length; j++) {
+    for (let i = 0; i < this.columns; i++) {
+        var cx = this.brickWidth * i + this.brickWidth / 2;
+        for (let j = 0; j < this.rows; j++) {
             if (B[i][j].exists) {
-                var cy = this.top + (hh * j);
+                var cy = this.top + (this.brickHeight * j) - this.brickHeight / 2;
+                var oldFill = ctx.fillStyle;
+                //ctx.fillStyle = randGradient(g_ctx);
+                ctx.fillStyle = B[i][j].fill;
                 ctx.fillRect(
                     //ctx.strokeRect(
-                    cx + marginSide,
-                    cy + marginToppBottom,
-                    ww - marginSide * 2,
-                    hh - marginToppBottom * 2);
+                    cx - this.brickWidth / 2 + BRICK_MARGIN_SIDES,
+                    cy + this.brickHeight / 2 + BRICK_MARGIN_TB,
+                    this.brickWidth - BRICK_MARGIN_SIDES * 2,
+                    this.brickHeight - BRICK_MARGIN_TB * 2);
             }
-            //fillCircle(ctx, cx, cy, 2);
+            ctx.fillStyle = oldFill;
+            fillCircle(ctx, cx,
+                cy + this.brickHeight,
+                2);
 
         }
 
@@ -66,7 +68,7 @@ Wall.prototype.render = function (ctx) {
 
 Wall.prototype.update = function (du) {
     /*
-    var B = this.briks;
+    var B = this.bricks;
     var h = this.bottom - this.top;
     var w = g_canvas.width;
     var c = this.columns;
@@ -97,7 +99,7 @@ Wall.prototype.update = function (du) {
 
 Wall.prototype.collidesWith = function (prevX, prevY, nextX, nextY, radius) {
 
-    var B = this.briks;
+    var B = this.bricks;
     var h = this.bottom - this.top;
     var w = g_canvas.width;
     var c = this.columns;
@@ -110,12 +112,11 @@ Wall.prototype.collidesWith = function (prevX, prevY, nextX, nextY, radius) {
         halfHeight = hh / 2;
         for (let j = 0; j < B[i].length; j++) {
             if (B[i][j].exists) {
-                wallEmpty = false;
+                var wallEmpty = false;
                 var cy = this.top + (hh * j);
-                halfWidth = ww / 2;
+                var halfWidth = ww / 2;
 
                 //console.log(cx +" "+cy);
-
                 if ((nextY - r < cy + halfHeight && prevY - r >= cy + halfHeight)) {
                     // Check Y coords
                     if (nextX + r >= cx - halfWidth &&

@@ -44,7 +44,14 @@ g_ball.update = function (du) {
     if (nextX < 0 || // top edge
         nextX > g_canvas.width) { // bottom edge
         this.xVel *= -1;
+
+        if (nextX < 0) {
+            this.cx = 0;
+        } else {
+            this.cx = g_canvas.width;
+        }
     }
+
 
     // Reset if we fall off the left or right edges
     // ...by more than some arbitrary `margin`

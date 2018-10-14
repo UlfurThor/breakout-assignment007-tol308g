@@ -66,3 +66,29 @@ function render(ctx) {
 
     ++g_frameCounter;
 }
+
+// creates a random gradient
+function randGradient(ctx, x1, y1, x2, y2) {
+
+
+
+    var colors = ['red', 'orange', 'yellow', 'lime', 'green', 'teal', 'blue', 'purple'];
+
+    //chose a number between 0 and 7
+    var rand1 = Math.floor(Math.random() * colors.length);
+    var rand2 = Math.floor(Math.random() * colors.length);
+
+
+    while (rand1 === rand2) {
+        rand2 = Math.floor(Math.random() * colors.length);
+    }
+
+
+    fillColor = ctx.createLinearGradient(x1, y1, x2, y2);
+    fillColor.addColorStop(0, colors[rand1]); //starting corner
+    fillColor.addColorStop(1, colors[rand2]); //ending Corner
+    return fillColor;
+
+
+
+}
