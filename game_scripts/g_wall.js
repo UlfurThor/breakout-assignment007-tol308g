@@ -96,12 +96,13 @@ Wall.prototype.collidesWith = function (prevX, prevY, nextX, nextY, radius) {
     var r = this.rows;
     var hh = h / r;
     var ww = w / c;
-
+var wallEmpty = true;
     for (let i = 0; i < B.length; i++) {
         var cx = (ww * i);
         halfHeight = hh / 2;
         for (let j = 0; j < B[i].length; j++) {
             if (B[i][j].exists) {
+                wallEmpty = false;
                 var cy = this.top + (hh * j);
                 halfWidth = ww / 2;
 
@@ -112,7 +113,6 @@ Wall.prototype.collidesWith = function (prevX, prevY, nextX, nextY, radius) {
                     if (nextX + r >= cx - halfWidth &&
                         nextX - r <= cx + halfWidth) {
                         // It's a hit!
-                        console.log("bottom");
                         B[i][j].exists = false;
                         return 1;
                     }
@@ -120,7 +120,6 @@ Wall.prototype.collidesWith = function (prevX, prevY, nextX, nextY, radius) {
                     if (nextX + r >= cx - halfWidth &&
                         nextX - r <= cx + halfWidth) {
                         // It's a hit!
-                        console.log("top");
                         B[i][j].exists = false;
                         return 2;
                     }
@@ -129,7 +128,6 @@ Wall.prototype.collidesWith = function (prevX, prevY, nextX, nextY, radius) {
                     if (nextY + r >= cy - halfHeight &&
                         nextY - r <= cy + halfHeight) {
                         // It's a hit!
-                        console.log("right");
                         B[i][j].exists = false;
                         return -1;
                     }
@@ -137,7 +135,6 @@ Wall.prototype.collidesWith = function (prevX, prevY, nextX, nextY, radius) {
                     if (nextY + r >= cy - halfHeight &&
                         nextY - r <= cy + halfHeight) {
                         // It's a hit!
-                        console.log("left");
                         B[i][j].exists = false;
                         return -2;
                     }
@@ -151,6 +148,9 @@ Wall.prototype.collidesWith = function (prevX, prevY, nextX, nextY, radius) {
 
         }
 
+    }
+    if (wallEmpty){
+        g_main.gameOver();
     }
     return 0;
 
