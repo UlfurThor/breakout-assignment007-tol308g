@@ -1,43 +1,4 @@
-// =================
-// RENDER SIMULATION
-// =================
-
-// We take a very layered approach here...
-//
-// The primary `render` routine handles generic stuff such as
-// the diagnostic toggles (including screen-clearing).
-//
-// It then delegates the game-specific logic to `gameRender`
-
-
-// =====
-// UTILS
-// =====
-var g_bgColor = "black";
-function clearCanvas(ctx) {
-    var prevfillStyle = ctx.fillStyle;
-    ctx.fillStyle = g_bgColor;
-    ctx.fillRect(0, 0, ctx.canvas.width, ctx.canvas.height);
-    ctx.fillStyle = prevfillStyle;
-}
-
-function fillCircle(ctx, x, y, r) {
-    ctx.beginPath();
-    ctx.arc(x, y, r, 0, Math.PI * 2);
-    ctx.fill();
-}
-
-function fillBox(ctx, x, y, w, h, style) {
-    var oldStyle = ctx.fillStyle;
-    ctx.fillStyle = style;
-    ctx.fillRect(x, y, w, h);
-    ctx.fillStyle = oldStyle;
-}
-
-// -----------------
 // GENERIC RENDERING
-// -----------------
-
 
 var g_doClear = true;
 var g_doBox = false;
@@ -47,7 +8,11 @@ var g_doRender = true;
 
 var g_frameCounter = 1;
 
-
+var TOGGLE_CLEAR = 'C'.charCodeAt(0);
+var TOGGLE_BOX = 'B'.charCodeAt(0);
+var TOGGLE_UNDO_BOX = 'U'.charCodeAt(0);
+var TOGGLE_FLIPFLOP = 'F'.charCodeAt(0);
+var TOGGLE_RENDER = 'R'.charCodeAt(0);
 
 function render(ctx) {
 
@@ -57,9 +22,6 @@ function render(ctx) {
     if (eatKey(TOGGLE_BOX)) g_doBox = !g_doBox;
     if (eatKey(TOGGLE_UNDO_BOX)) g_undoBox = !g_undoBox;
     if (eatKey(TOGGLE_FLIPFLOP)) g_doFlipFlop = !g_doFlipFlop;
-
-    // Don't toggle rendering in this exercise,
-    // because we're going to "steal" that key to implement "reset" instead.
     if (eatKey(TOGGLE_RENDER)) g_doRender = !g_doRender;
 
     // I've pulled the clear out of `renderSimulation()` and into
@@ -107,22 +69,4 @@ function render(ctx) {
     if (g_undoBox) ctx.clearRect(200, 200, 50, 50);
 
     ++g_frameCounter;
-}
-
-
-
-// -----------------------
-// GAME-SPECIFIC RENDERING
-// -----------------------
-
-function renderSimulation(ctx) {
-
-    g_ship.render(ctx);
-    if (u_useMouse)
-        g_shipSprite.drawWrappedCentredAt(ctx, xx, yy, rr);
-
-    if (!g_useExtras) return;
-
-    g_extraShip1.render(ctx);
-    g_extraShip2.render(ctx);
 }

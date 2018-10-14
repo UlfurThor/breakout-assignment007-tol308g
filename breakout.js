@@ -1,6 +1,6 @@
 // starts game
-"use strict";
+//"use strict";
 
 
-var g_canvas = document.getElementById("myCanvas");
-startGame( g_canvas);
+//var g_canvas = document.getElementById("myCanvas");
+//startGame( g_canvas);
