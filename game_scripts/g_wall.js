@@ -31,8 +31,6 @@ function Wall(descr) {
     }
 }
 
-var BRICK_MARGIN_SIDES = 2;
-var BRICK_MARGIN_TB = 2;
 
 Wall.prototype.render = function (ctx) {
     var B = this.bricks;
@@ -49,10 +47,10 @@ Wall.prototype.render = function (ctx) {
                 var oldFill = ctx.fillStyle;
                 ctx.fillStyle = B[i][j].fill;
                 ctx.fillRect(
-                    cx - this.brickWidth / 2 + BRICK_MARGIN_SIDES,
-                    cy + this.brickHeight / 2 + BRICK_MARGIN_TB,
-                    this.brickWidth - BRICK_MARGIN_SIDES * 2,
-                    this.brickHeight - BRICK_MARGIN_TB * 2);
+                    cx - this.brickWidth / 2 + this.bMarSide,
+                    cy + this.brickHeight / 2 + this.bMargTB,
+                    this.brickWidth - this.bMarSide * 2,
+                    this.brickHeight - this.bMargTB * 2);
                 ctx.fillStyle = oldFill;
             } else
                 B[i][j].render(ctx, cx, cy);

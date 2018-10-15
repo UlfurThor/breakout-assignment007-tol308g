@@ -1,5 +1,3 @@
-var QUIT_ENABLED = false;
-
 // ========
 // MAINLOOP
 // ========
@@ -12,6 +10,7 @@ var QUIT_ENABLED = false;
 // with genuine name-hiding *is* possible in JavaScript (via closures), but I 
 // haven't adopted it here.
 //
+// main game class
 var g_main = {
 
     // "Frame Time" is a (potentially high-precision) frame-clock for animations
@@ -57,20 +56,15 @@ g_main._iterCore = function (dt) {
     gatherInputs();
     update(dt);
     render(g_ctx);
-    g_wall.render(g_ctx);
 };
 
+// Simple voluntary quit mechanism
 g_main._isGameOver = false;
 
 g_main.gameOver = function () {
     this._isGameOver = true;
     console.log("gameOver: quitting...");
 };
-
-// Simple voluntary quit mechanism
-//
-
-
 
 function requestedQuit() {
     if (QUIT_ENABLED)
@@ -118,7 +112,7 @@ g_main.init = function () {
     // Grabbing focus is good, but it sometimes screws up jsfiddle,
     // so it's a risky option during "development"
     //
-    //window.focus(true);
+    window.focus(true);
 
     this._requestNextIteration();
 };

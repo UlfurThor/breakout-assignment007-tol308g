@@ -7,6 +7,12 @@ function Ball(descr) {
     for (var property in descr) {
         this[property] = descr[property];
     }
+
+    this.sprite = g_shipSprite;
+    //this.sprite.height = this.radius * 2;
+    //this.sprite.width = this.radius * 2;
+
+    this.rot = 0;
 }
 
 Ball.prototype.update = function (du) {
@@ -56,6 +62,8 @@ Ball.prototype.update = function (du) {
         } else {
             this.cx = g_canvas.width;
         }
+
+        
     }
 
 
@@ -74,6 +82,8 @@ Ball.prototype.update = function (du) {
     //
     this.cx += this.xVel * du;
     this.cy += this.yVel * du;
+
+    this.rot += du*0.25;
 };
 
 Ball.prototype.reset = function () {
@@ -86,6 +96,7 @@ Ball.prototype.reset = function () {
 Ball.prototype.render = function (ctx) {
     var oldFill = ctx.fillStyle;
     ctx.fillStyle = this.bgColor;
-    fillCircle(ctx, this.cx, this.cy, this.radius);
+    g_shipSprite.drawCentredAt(ctx, this.cx, this.cy, this.rot);
+    //fillCircle(ctx, this.cx, this.cy, this.radius);
     ctx.fillStyle = oldFill;
 };
