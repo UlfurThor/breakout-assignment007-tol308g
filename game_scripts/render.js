@@ -12,6 +12,7 @@ var g_frameCounter = 1;
 
 function render(ctx) {
 
+
     // Process various option toggles
     //
     if (eatKey(TOGGLE_CLEAR)) g_doClear = !g_doClear;
@@ -23,8 +24,10 @@ function render(ctx) {
     // I've pulled the clear out of `renderSimulation()` and into
     // here, so that it becomes part of our "diagnostic" wrappers
     //
-    if (g_doClear) clearCanvas(ctx);
-
+    if (g_doClear) {
+        clearCanvas(ctx);
+        fillBox(ctx, 0, 0, CANVAS_WIDTH_MAX, CANVAS_HEIGHT_MAX, g_bgColor);
+    }
     // The main purpose of the box is to demonstrate that it is
     // always deleted by the subsequent "undo" before you get to
     // see it...

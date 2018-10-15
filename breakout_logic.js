@@ -23,8 +23,12 @@ var g_ctx = g_canvas.getContext("2d");
 var CANVAS_WIDTH_MAX = 1000;
 var CANVAS_WIDTH_MIN = 100;
 var CANVAS_HEIGHT_MAX = 1000;
-var CANVAS_HEIGHT_MIN = 100;
+var CANVAS_HEIGHT_MIN = 300;
 var score = 0;
+
+
+var g_bgColor = randGradient(g_ctx, 0, 0, CANVAS_WIDTH_MAX, CANVAS_HEIGHT_MAX);
+
 /*
 0        1         2         3         4         5         6         7         8         9
 123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890
@@ -43,7 +47,7 @@ g_paddles[0] = new Paddle({
     cx: 200,
     cy: 200,
     id: 0,
-    bottomOffset : 50
+    bottomOffset: 50
     //GO_UP: KEY_W,
     //GO_DOWN: KEY_S
 });
@@ -77,6 +81,18 @@ g_wall = new Wall({
     bottom: 150
 });
 
+
+var g_ball = new Ball({
+    cx: 50,
+    cy: 200,
+    radius: 10,
+
+    xVel: 5,
+    yVel: 4,
+
+    bgColor: randGradient(g_ctx, 0, 0, CANVAS_WIDTH_MAX, CANVAS_HEIGHT_MAX)
+});
+
 // =============
 // GATHER INPUTS
 // =============
@@ -105,7 +121,8 @@ function updateSimulation(du) {
     g_ball.update(du);
 
     g_paddles.update(du);
-    
+    g_wall.update(du);
+
 }
 
 
@@ -131,6 +148,7 @@ function renderSimulation(ctx) {
     //g_paddle1.render(ctx);
     //g_paddle2.render(ctx);
 }
+
 
 // Kick it off
 g_main.init();

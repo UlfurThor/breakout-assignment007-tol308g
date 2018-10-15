@@ -3,17 +3,13 @@
 // ==========
 
 // BALL STUFF
+function Ball(descr) {
+    for (var property in descr) {
+        this[property] = descr[property];
+    }
+}
 
-var g_ball = {
-    cx: 50,
-    cy: 200,
-    radius: 10,
-
-    xVel: 5,
-    yVel: 4
-};
-
-g_ball.update = function (du) {
+Ball.prototype.update = function (du) {
     // Remember my previous position
     var prevX = this.cx;
     var prevY = this.cy;
@@ -80,13 +76,16 @@ g_ball.update = function (du) {
     this.cy += this.yVel * du;
 };
 
-g_ball.reset = function () {
+Ball.prototype.reset = function () {
     this.cx = 300;
     this.cy = 100;
     this.xVel = -5;
     this.yVel = 4;
 };
 
-g_ball.render = function (ctx) {
+Ball.prototype.render = function (ctx) {
+    var oldFill = ctx.fillStyle;
+    ctx.fillStyle = this.bgColor;
     fillCircle(ctx, this.cx, this.cy, this.radius);
+    ctx.fillStyle = oldFill;
 };

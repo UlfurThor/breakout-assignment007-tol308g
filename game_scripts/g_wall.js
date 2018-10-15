@@ -44,33 +44,35 @@ Wall.prototype.render = function (ctx) {
     for (let i = 0; i < this.columns; i++) {
         var cx = this.brickWidth * i + this.brickWidth / 2;
         for (let j = 0; j < this.rows; j++) {
+            var cy = this.top + (this.brickHeight * j) - this.brickHeight / 2;
             if (B[i][j].exists) {
-                var cy = this.top + (this.brickHeight * j) - this.brickHeight / 2;
                 var oldFill = ctx.fillStyle;
-                //ctx.fillStyle = randGradient(g_ctx);
                 ctx.fillStyle = B[i][j].fill;
-                //ctx.fillStyle = B[1][1].fill;
                 ctx.fillRect(
-                    //ctx.strokeRect(
                     cx - this.brickWidth / 2 + BRICK_MARGIN_SIDES,
                     cy + this.brickHeight / 2 + BRICK_MARGIN_TB,
                     this.brickWidth - BRICK_MARGIN_SIDES * 2,
                     this.brickHeight - BRICK_MARGIN_TB * 2);
-            }
-            ctx.fillStyle = oldFill;
-            fillCircle(ctx, cx,
-                cy + this.brickHeight,
-                2);
-
+                ctx.fillStyle = oldFill;
+            } else
+                B[i][j].render(ctx, cx, cy);
         }
 
     }
 
 
 }
-var ff;
 Wall.prototype.update = function (du) {
+    var B = this.bricks;
+    for (let i = 0; i < this.columns; i++) {
+        for (let j = 0; j < this.rows; j++) {
+            if (!B[i][j].exists) {
+                B[i][j].update(du);
+            }
 
+
+        }
+    }
 }
 
 Wall.prototype.collidesWith = function (prevX, prevY, nextX, nextY, radius) {
@@ -100,6 +102,7 @@ Wall.prototype.collidesWith = function (prevX, prevY, nextX, nextY, radius) {
                             nextX - r <= cx + halfWidth) {
                             // It's a hit!
                             B[i][j].exists = false;
+                            B[i][j].colision(1);
                             return 1;
                         }
                     } else if ((nextY + r > cy - halfHeight && prevY + r <= cy - halfHeight)) {
@@ -107,6 +110,7 @@ Wall.prototype.collidesWith = function (prevX, prevY, nextX, nextY, radius) {
                             nextX - r <= cx + halfWidth) {
                             // It's a hit!
                             B[i][j].exists = false;
+                            B[i][j].colision(2);
                             return 2;
                         }
                     } else if ((nextX - r < cx + halfWidth && prevX - r >= cy + halfWidth)) {
@@ -115,6 +119,7 @@ Wall.prototype.collidesWith = function (prevX, prevY, nextX, nextY, radius) {
                             nextY - r <= cy + halfHeight) {
                             // It's a hit!
                             B[i][j].exists = false;
+                            B[i][j].colision(-1);
                             return -1;
                         }
                     } else if ((nextX + r > cx - halfWidth && prevX + r <= cy - halfWidth)) {
@@ -122,6 +127,7 @@ Wall.prototype.collidesWith = function (prevX, prevY, nextX, nextY, radius) {
                             nextY - r <= cy + halfHeight) {
                             // It's a hit!
                             B[i][j].exists = false;
+                            B[i][j].colision(-2);
                             return -2;
                         }
                     }
