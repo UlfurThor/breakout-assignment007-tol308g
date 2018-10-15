@@ -5,8 +5,9 @@ function Brick(descr) {
         this[property] = descr[property];
     }
 
-    console.log("brick made " + cc);
+    //console.log("brick made " + cc);
     cc++;
+    //this.fill = randGradient(g_ctx, 0, 0, 1600, 1600);
     this.fill = randGradient(g_ctx, 0, this.cy - this.height, 1600, this.cy + this.height);
 }
 

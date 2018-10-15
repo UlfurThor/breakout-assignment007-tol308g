@@ -30,15 +30,25 @@ g_ball.update = function (du) {
 
 
     var wallHit = g_wall.collidesWith(prevX, prevY, nextX, nextY, this.radius);
-    if (wallHit > 0)
+    if (wallHit > 0) {
         this.yVel *= -1;
-    else if (wallHit < 0)
+        score += 10;
+    } else if (wallHit < 0) {
         this.xVel *= -1;
+        score += 10;
+    }
 
     // Bounce off top and bottom edges
     if (nextY < 0 || // top edge
         nextY > g_canvas.height) { // bottom edge
         this.yVel *= -1;
+
+        if (nextY < 0) {
+            this.cy = 0;
+        } else {
+            this.cy = g_canvas.height;
+            score--;
+        }
     }
 
     if (nextX < 0 || // top edge

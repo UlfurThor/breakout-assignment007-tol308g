@@ -19,6 +19,12 @@ The "MAINLOOP" code, inside g_main, is much simplified as a result.
 
 var g_canvas = document.getElementById("myCanvas");
 var g_ctx = g_canvas.getContext("2d");
+
+var CANVAS_WIDTH_MAX = 1000;
+var CANVAS_WIDTH_MIN = 100;
+var CANVAS_HEIGHT_MAX = 1000;
+var CANVAS_HEIGHT_MIN = 100;
+var score = 0;
 /*
 0        1         2         3         4         5         6         7         8         9
 123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890
@@ -37,6 +43,7 @@ g_paddles[0] = new Paddle({
     cx: 200,
     cy: 200,
     id: 0,
+    bottomOffset : 50
     //GO_UP: KEY_W,
     //GO_DOWN: KEY_S
 });

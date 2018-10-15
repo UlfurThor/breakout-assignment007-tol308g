@@ -77,16 +77,26 @@ function randGradient(ctx, x1, y1, x2, y2) {
     //chose a number between 0 and 7
     var rand1 = Math.floor(Math.random() * colors.length);
     var rand2 = Math.floor(Math.random() * colors.length);
+    var rand3 = Math.floor(Math.random() * colors.length);
+    var rand4 = Math.floor(Math.random() * colors.length);
 
 
     while (rand1 === rand2) {
         rand2 = Math.floor(Math.random() * colors.length);
     }
+    while (rand2 === rand3) {
+        rand3 = Math.floor(Math.random() * colors.length);
+    }
+    while (rand3 === rand4) {
+        rand4 = Math.floor(Math.random() * colors.length);
+    }
 
 
     fillColor = ctx.createLinearGradient(x1, y1, x2, y2);
     fillColor.addColorStop(0, colors[rand1]); //starting corner
-    fillColor.addColorStop(1, colors[rand2]); //ending Corner
+    fillColor.addColorStop(0.33, colors[rand2]); //ending Corner
+    fillColor.addColorStop(0.67, colors[rand3]); //ending Corner
+    fillColor.addColorStop(1, colors[rand4]); //ending Corner
     return fillColor;
 
 

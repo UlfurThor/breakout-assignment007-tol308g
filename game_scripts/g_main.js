@@ -1,4 +1,5 @@
 var QUIT_ENABLED = false;
+
 // ========
 // MAINLOOP
 // ========
