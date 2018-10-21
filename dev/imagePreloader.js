@@ -17,8 +17,8 @@ var ctx = canvas.getContext("2d");
 //
 // I prefer this approach to setting onload/onerror/src directly.
 //
-Image.prototype.asyncLoad = function(src, asyncCallback) {
-    
+Image.prototype.asyncLoad = function (src, asyncCallback) {
+
     // Must assign the callback handlers before setting `this.src`,
     // for safety (and caching-tolerance).
     //
@@ -30,14 +30,14 @@ Image.prototype.asyncLoad = function(src, asyncCallback) {
     //
     this.onload = asyncCallback;
     this.onerror = asyncCallback;
-    
+
     // NB: The load operation can be triggered from any point 
     // after setting `this.src`.
     //
     // It *may* happen immediately (on some browsers) if the image is already
     // in-cache, but will most likely happen some time later when the load has
     // occurred and the resulting event is processesd in the queue.
-    
+
     console.log("requesting image src of ", src);
     this.src = src;
 };
@@ -59,8 +59,8 @@ Image.prototype.asyncLoad = function(src, asyncCallback) {
 // IN  : `completionCallback` - will be executed when everything is done
 //
 function imagesPreload(requiredImages,
-                       loadedImages,
-                       completionCallback) {
+    loadedImages,
+    completionCallback) {
 
     var numImagesRequired,
         numImagesHandled = 0,
@@ -114,12 +114,12 @@ function imagesPreload(requiredImages,
 
         // Skip inherited properties from the prototype chain,
         // just to be safe, although there shouldn't be any...
-        
+
         // I prefer this approach, but JSLint doesn't like "continue" :-(
         //if (!requiredImages.hasOwnProperty(currentName)) { continue; }
-        
+
         if (requiredImages.hasOwnProperty(currentName)) {
-            
+
             console.log("preloading image", currentName);
             currentImage = new Image();
             currentImage.name = currentName;

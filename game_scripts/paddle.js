@@ -3,6 +3,8 @@ function Paddle(descr) {
     for (var property in descr) {
         this[property] = descr[property];
     }
+
+    this.cy = g_canvas.height - this.bottomOffset;
 }
 
 // Add these properties to the prototype, where they will server as
@@ -13,22 +15,42 @@ Paddle.prototype.halfHeight = 10;
 
 Paddle.prototype.update = function (du) {
     if (g_keys[GO_UP[this.id]]) {
-        this.cy -= 5 * du;
+        g_canvas.height -= 5 * du;
+        if (g_canvas.height < CANVAS_HEIGHT_MIN) {
+            g_canvas.height = CANVAS_HEIGHT_MIN;
+        }
+        this.cy = g_canvas.height - this.bottomOffset;
+        //this.cy -= 5 * du;
     } else if (g_keys[GO_DOWN[this.id]]) {
-        this.cy += 5 * du;
+        g_canvas.height += 5 * du;
+        if (g_canvas.height > CANVAS_HEIGHT_MAX) {
+            g_canvas.height = CANVAS_HEIGHT_MAX;
+        }
+        this.cy = g_canvas.height - this.bottomOffset;
+        //this.cy += 5 * du;
     }
 
     if (g_keys[GO_LEFT[this.id]]) {
-        this.cx -= 5 * du;
+        g_canvas.width -= 5 * du;
+        if (g_canvas.width < CANVAS_WIDTH_MIN) {
+            g_canvas.width = CANVAS_WIDTH_MIN;
+        }
+        this.cx = g_canvas.width / 2;
+        //this.cx -= 5 * du;
     } else if (g_keys[GO_RIGHT[this.id]]) {
-        this.cx += 5 * du;
+        g_canvas.width += 5 * du;
+        if (g_canvas.width > CANVAS_WIDTH_MAX) {
+            g_canvas.width = CANVAS_WIDTH_MAX;
+        }
+        this.cx = g_canvas.width / 2;
+        //this.cx += 5 * du;
     }
 };
 
 Paddle.prototype.render = function (ctx) {
     // (cx, cy) is the centre; must offset it for drawing
-    ctx.strokeRect(this.cx - this.halfWidth,
-        //sctx.fillRect(this.cx - this.halfWidth,
+    //ctx.strokeRect(this.cx - this.halfWidth,
+    ctx.fillRect(this.cx - this.halfWidth,
         this.cy - this.halfHeight,
         this.halfWidth * 2,
         this.halfHeight * 2);

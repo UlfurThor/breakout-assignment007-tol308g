@@ -2,13 +2,14 @@
 <html>
 
 <head>
-   
+
     <meta charset="utf-8" />
 
     <title id="headder_title">!!!Ultra mega BrEaKoUt!</title>
     <link rel="stylesheet" href="style.css">
-    
+
     <script type="text/javascript" src="game_scripts/g_keybinds.js"></script>
+    <script type="text/javascript" src="game_scripts/const.js"></script>
     <script type="text/javascript" src="game_scripts/g_ball.js"></script>
     <script type="text/javascript" src="game_scripts/g_keys.js"></script>
     <script type="text/javascript" src="game_scripts/g_main.js"></script>
@@ -19,6 +20,10 @@
     <script type="text/javascript" src="game_scripts/render.js"></script>
     <script type="text/javascript" src="game_scripts/update.js"></script>
     <script type="text/javascript" src="game_scripts/utils.js"></script>
+    <script type="text/javascript" src="game_scripts/sprite.js"></script>
+    
+    <script type="text/javascript" src="dev/test.js"></script>
+
 
 </head>
 
@@ -29,27 +34,27 @@
     </canvas>
     <br>
     <br>
-    <br>
-    <div id="keybinds">
-        W: Thrust <br> S: Retro Thrust<br> A/D : Turn <br>
-        <br>
-        <div id="mess_extra">E: Extra ships </div>
-        <div id="mess_grav">G: Gravity</div>
-        <div id="mess_mixed">M: Mixed inputs</div>
-        <div id="mess_target">T: main ship markers</div>
-        <div id="mess_Mouse">I: ship at mouse</div>
-        H: Halt <br> R: Reset<br> Q: quit
-
-
-    </div>
-    <br>
-    <br>
-    <br>
     <div id="messageBox">
+        score :
     </div>
 
+    <br>
 
-    <script type="text/javascript" src="breakout_logic.js"></script>
+    <h3>User WASD to move the board</h3>
+    <p>cool thing 1 : move board instead of paddle</p>
+    <p>cool thing 2 : particles on inpact</p>
+    <p>cool thing 3 : Gradients on wall, stays on particles</p>
+    <p>cool thing 4 : img ball</p>
+    <p>cool thing 5 : ball responds to postition on paddle</p>
+
+
+    <br>
+    <br>
+    <br>
+
+
+
+    <script type="text/javascript" src="breakout.js"></script>
 
 </body>
 
